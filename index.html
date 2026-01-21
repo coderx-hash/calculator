@@ -3,285 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber-Industrial Calculator</title>
+    <title>Tactical Calculator v2.0</title>
     <style>
+        /* TACTICAL THEME: CARBON & GUNMETAL */
         :root {
-            --neon-cyan: #00f2ff;
-            --neon-red: #ff0055;
-            --bg-dark: #050505;
-            --panel-bg: rgba(20, 20, 20, 0.9);
+            --metal: #1a1a1a;
+            --gunmetal: #2d2d2d;
+            --carbon: #111111;
+            --tactical-orange: #ff8c00; /* Amber Dashboard Color */
+            --steel: #444;
+            --border-glow: #333;
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%),
-                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: 100% 100%, 30px 30px, 30px 30px;
-            color: #fff;
-            font-family: 'Orbitron', 'Segoe UI', sans-serif;
+            background-color: #050505;
+            background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
+            background-size: 20px 20px; /* Grid background parang blueprint */
+            color: #ccc;
+            font-family: 'Arial Black', Gadget, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            overflow: hidden;
         }
 
-        /* Container */
-        .main-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .calc-case {
+            background: var(--metal);
             width: 100%;
-            max-width: 400px;
-            padding: 20px;
+            max-width: 380px;
+            padding: 30px;
+            border-radius: 5px;
+            border: 4px solid var(--steel);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            position: relative;
         }
 
-        .calc-body {
-            background: var(--panel-bg);
-            border: 2px solid #333;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 242, 255, 0.1);
-            position: relative;
-            backdrop-filter: blur(10px);
+        /* Branding/Model Name */
+        .calc-case::before {
+            content: "TAC-MODEL 01 // OPERATOR";
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 10px;
+            color: #555;
+            letter-spacing: 2px;
         }
 
-        /* Advanced Screen */
-        .screen-container {
-            background: #000;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid var(--neon-cyan);
-            box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.2);
-            margin-bottom: 20px;
-            position: relative;
+        /* DISPLAY: MILITARY GRADE AMBER */
+        .display-unit {
+            background-color: #0a0a0a;
+            border: 2px inset #222;
+            margin-bottom: 25px;
+            padding: 10px;
+            box-shadow: inset 0 0 20px #000;
         }
 
         #display {
             width: 100%;
             background: transparent;
             border: none;
-            color: var(--neon-cyan);
-            font-size: 2.2rem;
+            color: var(--tactical-orange);
+            font-size: 3rem;
             text-align: right;
             outline: none;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 2px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
         }
 
-        #history-mini {
-            color: rgba(0, 242, 255, 0.5);
-            font-size: 0.8rem;
+        #history {
+            color: #554100;
+            font-size: 0.9rem;
             text-align: right;
             height: 1.2rem;
-            overflow: hidden;
+            margin-bottom: 5px;
+            font-family: monospace;
         }
 
-        /* Buttons Grid */
+        /* BUTTONS: RUGGED STYLE */
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 10px;
         }
 
         button {
-            background: #222;
-            border: 1px solid #444;
-            color: #eee;
-            padding: 18px;
-            font-size: 1.1rem;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #222, #111);
+            border: 1px solid #000;
+            color: #aaa;
+            padding: 22px 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button:hover {
-            background: #333;
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+            border-radius: 3px;
+            text-transform: uppercase;
+            transition: 0.1s;
+            box-shadow: 3px 3px 0px #000;
         }
 
         button:active {
-            transform: scale(0.92);
+            transform: translate(2px, 2px);
+            box-shadow: none;
+            background: #111;
         }
 
-        .op { color: var(--neon-cyan); font-weight: bold; }
-        .special { color: #ff9d00; }
-        .danger { color: var(--neon-red); }
+        button:hover {
+            border-color: var(--tactical-orange);
+            color: #fff;
+        }
 
-        .equal-btn {
+        /* SPECIAL BUTTON COLORS */
+        .op { color: var(--tactical-orange); }
+        
+        .clear { background: #3d1414; color: #ff4444; }
+        .clear:hover { background: #5a1a1a; }
+
+        .enter {
             grid-column: span 2;
-            background: linear-gradient(90deg, #0088ff, var(--neon-cyan));
+            background: var(--tactical-orange);
             color: #000;
-            font-weight: 900;
-            border: none;
+            font-size: 1.5rem;
+            box-shadow: 3px 3px 0px #854900;
         }
+        .enter:hover { background: #ffae42; }
 
-        /* Copy Notification */
-        #toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--neon-cyan);
-            color: #000;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 0.8rem;
-            display: none;
-            z-index: 100;
+        /* PASTE SECTION */
+        .paste-info {
+            margin-top: 15px;
+            font-size: 0.7rem;
+            color: #444;
+            text-align: center;
+            letter-spacing: 1px;
         }
-
-        /* History Panel */
-        .history-panel {
-            font-size: 0.8rem;
-            background: rgba(0,0,0,0.5);
-            border-radius: 10px;
-            padding: 10px;
-            max-height: 100px;
-            overflow-y: auto;
-            border-left: 3px solid var(--neon-cyan);
-        }
-
     </style>
 </head>
 <body>
 
-<div id="toast">RESULT COPIED TO CLIPBOARD</div>
-
-<div class="main-wrapper">
-    <div class="calc-body">
-        <div class="screen-container">
-            <div id="history-mini"></div>
-            <input type="text" id="display" placeholder="SYSTEM READY" oninput="sanitize()">
-        </div>
-
-        <div class="grid">
-            <button class="danger" onclick="clearAll()">AC</button>
-            <button class="danger" onclick="del()">DEL</button>
-            <button class="op" onclick="append('**2')">x²</button>
-            <button class="op" onclick="append('/')">÷</button>
-            
-            <button onclick="append('7')">7</button>
-            <button onclick="append('8')">8</button>
-            <button onclick="append('9')">9</button>
-            <button class="op" onclick="append('*')">×</button>
-            
-            <button onclick="append('4')">4</button>
-            <button onclick="append('5')">5</button>
-            <button onclick="append('6')">6</button>
-            <button class="op" onclick="append('-')">-</button>
-            
-            <button onclick="append('1')">1</button>
-            <button onclick="append('2')">2</button>
-            <button onclick="append('3')">3</button>
-            <button class="op" onclick="append('+')">+</button>
-            
-            <button onclick="append('0')">0</button>
-            <button onclick="append('.')">.</button>
-            <button class="op" onclick="sqrt()">√</button>
-            <button class="op" onclick="append('%')">%</button>
-
-            <button class="equal-btn" onclick="calc()">ENTER / COMPUTE</button>
-            <button class="special" style="grid-column: span 2;" onclick="copyResult()">COPY RESULT</button>
-        </div>
+<div class="calc-case">
+    <div class="display-unit">
+        <div id="history">LOG_READY</div>
+        <input type="text" id="display" placeholder="00" oninput="sanitize()">
     </div>
 
-    <div class="history-panel" id="history-log">
-        <div style="color: var(--neon-cyan); margin-bottom: 5px;">> LOG_HISTORY:</div>
+    <div class="grid">
+        <button class="clear" onclick="clr()">CLR</button>
+        <button onclick="del()">DEL</button>
+        <button class="op" onclick="ins('%')">%</button>
+        <button class="op" onclick="ins('/')">÷</button>
+
+        <button onclick="ins('7')">7</button>
+        <button onclick="ins('8')">8</button>
+        <button onclick="ins('9')">9</button>
+        <button class="op" onclick="ins('*')">×</button>
+
+        <button onclick="ins('4')">4</button>
+        <button onclick="ins('5')">5</button>
+        <button onclick="ins('6')">6</button>
+        <button class="op" onclick="ins('-')">-</button>
+
+        <button onclick="ins('1')">1</button>
+        <button onclick="ins('2')">2</button>
+        <button onclick="ins('3')">3</button>
+        <button class="op" onclick="ins('+')">+</button>
+
+        <button onclick="ins('0')">0</button>
+        <button onclick="ins('.')">.</button>
+        <button class="enter" onclick="run()">EXE_ENTER</button>
     </div>
+
+    <div class="paste-info">CTRL+V TO PASTE DATA // CTRL+C TO COPY</div>
 </div>
 
 <script>
-    const display = document.getElementById('display');
-    const mini = document.getElementById('history-mini');
-    const log = document.getElementById('history-log');
-    
-    // Sound FX (Beep)
-    const beep = new Audio('https://www.soundjay.com/buttons/sounds/button-50.mp3');
-    beep.volume = 0.2;
+    const disp = document.getElementById('display');
+    const hist = document.getElementById('history');
 
-    function playSound() {
-        beep.currentTime = 0;
-        beep.play();
+    function ins(v) {
+        disp.value += v;
+        disp.focus();
     }
 
-    function append(val) {
-        playSound();
-        display.value += val;
-        display.focus();
-    }
-
-    function clearAll() {
-        playSound();
-        display.value = "";
-        mini.innerText = "";
+    function clr() {
+        disp.value = "";
+        hist.innerText = "LOG_CLEARED";
     }
 
     function del() {
-        playSound();
-        display.value = display.value.slice(0, -1);
-    }
-
-    function sqrt() {
-        playSound();
-        if(display.value) {
-            display.value = Math.sqrt(eval(display.value));
-            mini.innerText = "sqrt(" + display.value + ")";
-        }
+        disp.value = disp.value.slice(0, -1);
     }
 
     function sanitize() {
-        display.value = display.value.replace(/[^0-9+\-*/.**%()]/g, '');
+        // Hayaan lang ang numbers at math symbols para iwas error sa paste
+        disp.value = disp.value.replace(/[^0-9+\-*/.%()]/g, '');
     }
 
-    function calc() {
-        playSound();
+    function run() {
         try {
-            let raw = display.value;
-            if(!raw) return;
+            if(!disp.value) return;
+            let res = eval(disp.value.replace(/×/g, '*').replace(/÷/g, '/'));
+            hist.innerText = disp.value + " =";
+            disp.value = res;
             
-            let result = eval(raw);
-            
-            // Update History
-            mini.innerText = raw + " =";
-            display.value = result;
-
-            // Add to Log
-            let entry = document.createElement('div');
-            entry.innerText = `> ${raw} = ${result}`;
-            log.prepend(entry);
-
-            // Auto Copy
-            copyToClipboard(result);
+            // Auto-Select para copy agad
+            disp.select();
+            document.execCommand('copy'); // Auto-copy to clipboard
         } catch(e) {
-            display.value = "SYS_ERROR";
-            setTimeout(() => display.value = "", 1000);
+            disp.value = "ERR_CODE";
+            setTimeout(() => disp.value = "", 1000);
         }
-    }
-
-    function copyToClipboard(text) {
-        navigator.clipboard.writeText(text);
-        const toast = document.getElementById('toast');
-        toast.style.display = 'block';
-        setTimeout(() => toast.style.display = 'none', 2000);
-    }
-
-    function copyResult() {
-        playSound();
-        copyToClipboard(display.value);
     }
 
     // Keyboard support
     document.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter') calc();
-        if(e.key === 'Escape') clearAll();
+        if(e.key === 'Enter') run();
+        if(e.key === 'Escape') clr();
     });
 </script>
 
