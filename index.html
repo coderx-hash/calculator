@@ -30,7 +30,7 @@
             position: relative;
         }
 
-        /* --- MOVING BACKGROUND (THE REQUEST) --- */
+        /* --- MOVING BACKGROUND --- */
         .cyber-grid {
             position: absolute;
             top: -50%;
@@ -311,7 +311,6 @@
 
         function ins(v) {
             inputStream.value += v;
-            // soundEffect.play(); // Optional sound trigger
             inputStream.focus();
         }
 
@@ -335,6 +334,11 @@
                 if(/[^0-9+\-*/.%().]/.test(expression)) throw new Error("Invalid Input");
 
                 let res = eval(expression);
+
+                // --- FIXED: LIMIT TO MAX 4 DECIMAL PLACES ---
+                // Uses Math.round trick to avoid trailing zeros on whole numbers
+                res = Math.round((res + Number.EPSILON) * 10000) / 10000;
+                // --------------------------------------------
                 
                 // Trigger Glitch Effect then show result
                 glitchText(res);
